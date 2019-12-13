@@ -21,7 +21,7 @@ class Authentication extends React.Component {
         this.state = {
             search: '',
         }
-    };
+    }
 
     componentDidMount() {
         if (firstPageLoad) {
@@ -30,7 +30,7 @@ class Authentication extends React.Component {
         }
 
         window.addEventListener('scroll', this.onScroll.bind(this), true);
-    };
+    }
 
     loadPhotos() {
         let page = localStorage.getItem('page');
@@ -46,7 +46,7 @@ class Authentication extends React.Component {
                 localStorage.setItem('loadAvaliableBool', true);
                 localStorage.setItem('page', +page + 1);
             });
-    };
+    }
 
     onScroll() {
         const loadPhotoScrollBorder = window.innerHeight;
@@ -104,14 +104,14 @@ function mapStateToProps(state) {
     return {
         photos: state
     }
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         loadPhotosAction: (photos) => dispatch(loadPhotosAction(photos)),
         searchPhotosAction: (photos) => dispatch(searchPhotosAction(photos)),
     }
-};
+}
 
 export default connect(
     mapStateToProps,

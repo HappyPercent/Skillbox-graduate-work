@@ -12,7 +12,6 @@ class Home extends React.Component {
         return (
             <div className='home'>
                 <h1>Welcome, please, <span onClick={ this.goToAuthorizationPage } className='authorization_button'><span>authorize</span></span> via Unsplash.com</h1>
-
             </div>
         )
     }

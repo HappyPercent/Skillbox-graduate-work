@@ -61,7 +61,7 @@ class Photo extends React.Component {
                         </div>
                     </div>
                     <div className='overlay__bottom'>
-                        <div className='overlay__created'></div>
+                        <div className='overlay__created'/>
                         <button className='overlay__download-button' style={ downloadBGImage } onClick={ this.downloadPhoto.bind(this) }></button>
                     </div>
                 </div>
@@ -81,6 +81,6 @@ function mapDispatchToProps(dispatch) {
         likePhoto: (id) => dispatch(likePhoto(id)),
         unLikePhoto: (id) => dispatch(unLikePhoto(id)),
     }
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photo);

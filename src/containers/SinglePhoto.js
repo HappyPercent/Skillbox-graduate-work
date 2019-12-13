@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { likePhoto, unLikePhoto } from '../actions/actions';
 import { likePhotoUnsplash, unLikePhotoUnsplash } from '../unsplashAPI/index';
 
-import like from "../images/likered.svg";
+import likered from "../images/likered.svg";
 
 class SinglePhoto extends React.Component {
 
@@ -21,15 +21,15 @@ class SinglePhoto extends React.Component {
         this.state = {
             photoInfo: photoInfo,
         };
-    };
+    }
 
     componentDidMount() {
         document.body.style.overflow = 'hidden';
-    };
+    }
 
     componentWillUnmount() {
         document.body.style.overflow = 'visible';
-    };
+    }
 
     UNSAFE_componentWillReceiveProps() {
         this.changePhotoInfo();
@@ -63,7 +63,7 @@ class SinglePhoto extends React.Component {
 
         try {
             const likeBGImage = {
-                backgroundImage: 'url('+ like +')'
+                backgroundImage: 'url('+ likered +')'
             };
             const user = this.state.photoInfo.user;
             const nextPhotoLink = this.state.photoInfo.number + 1 > this.props.photos.length - 1 ? '#' : '/auth/' + this.props.photos[this.state.photoInfo.number + 1].id
@@ -106,13 +106,13 @@ function mapStateToProps(state) {
             return photo;
         })
     }
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         likePhoto: (id) => dispatch(likePhoto(id)),
         unLikePhoto: (id) => dispatch(unLikePhoto(id)),
     }
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SinglePhoto);
