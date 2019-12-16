@@ -69,20 +69,20 @@ input {
 }
 
 .image_container {
-    width: 100%;
-    column-count: 3;
-    column-gap: 15px;
-    padding-left: 2%;
-    padding-right: 2%;
-    margin-top: 10px;
+    margin: 10px 3vh 0;
 }
 
 .img_wrapper {
-    width: 100%;
-    margin-bottom: 11px;
+    width: 30vw;
+    margin-bottom: calc(2vw - 4px);
+    display: inline-block;
     position: relative;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.img_wrapper:not(:nth-child(3n)) {
+    margin-right: 2vw;
 }
 
 .photo {

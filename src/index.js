@@ -44,8 +44,8 @@ ReactDOM.render(
     <Provider store={ store }>
         <Router history={ customHistory }>
             <GlobalCSS />
-            <Route path="/auth" component={ Authentication } />
-            <Route path="/auth/:id" component={ SinglePhoto } />
+            <Route exact path="/auth" component={ Authentication } />
+            <Route exact path="/auth/:id" component={ SinglePhoto } />
             <Route exact path="/" component={ Home } />
         </Router>
     </Provider>,

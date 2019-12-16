@@ -5,6 +5,7 @@ import { loadPhotosAction, searchPhotosAction } from '../actions/actions';
 import { userAccessToken, getListPhotos, searchPhotos } from '../unsplashAPI';
 
 import Photo from '../components/Photo';
+import Masonry from 'masonry-layout';
 
 let firstPageLoad = true;
 
@@ -33,11 +34,9 @@ class Authentication extends React.Component {
     }
 
     loadPhotos() {
-        let page = localStorage.getItem('page');
+        let page = localStorage.getItem('page');    
         let perPage = localStorage.getItem('perPage');
 
-        // localStorage.setItem('loadAvaliableBool', true);
-        // this.props.loadPhotosAction();
         getListPhotos(page, perPage, localStorage.getItem('token'))
             .then(photos => {
                 this.props.loadPhotosAction(photos);

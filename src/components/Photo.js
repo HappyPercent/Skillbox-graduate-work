@@ -8,6 +8,8 @@ import { likePhotoUnsplash, unLikePhotoUnsplash, downoalPhotoFromUnsplash } from
 import like from "../images/like.svg";
 import download from "../images/download.svg";
 
+import Masonry from 'masonry-layout';
+
 class Photo extends React.Component {
     
     constructor (props) {
@@ -33,7 +35,16 @@ class Photo extends React.Component {
         const downloadURL = this.props.photo.links.download_location;
 
         downoalPhotoFromUnsplash(id, token, downloadURL);
+    }
 
+    componentDidMount() {
+        let elem = document.querySelector('.image_container');
+        let msnry = new Masonry( elem, {
+            itemSelector: '.img_wrapper',
+            columnWidth: '.img_wrapper',
+            percentPosition: true,
+        });
+        msnry.layout();
     }
 
     render() {

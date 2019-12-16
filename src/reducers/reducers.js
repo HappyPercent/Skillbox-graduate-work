@@ -27,7 +27,6 @@ const reducer = (state = [], action) => {
                 }
                 return photo;
             })
-
         default:
             return state;
     }
