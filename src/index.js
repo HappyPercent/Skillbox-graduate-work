@@ -43,10 +43,12 @@ const customHistory = createBrowserHistory();
 ReactDOM.render(
     <Provider store={ store }>
         <Router history={ customHistory }>
-            <GlobalCSS />
-            <Route exact path="/auth" component={ Authentication } />
+          <GlobalCSS />
+          <Switch>
             <Route exact path="/auth/:id" component={ SinglePhoto } />
+            <Route exact path="/auth" component={ Authentication } />
             <Route exact path="/" component={ Home } />
+          </Switch>
         </Router>
     </Provider>,
     document.querySelector('.root')
