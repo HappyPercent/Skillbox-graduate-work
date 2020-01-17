@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadPhotosAction, searchPhotosAction } from '../actions/actions';
+import { loadPhotosAction, firstSearchPhotosAction, secondarySearchPhotosAction } from '../actions/actions';
 import { userAccessToken, getListPhotos, searchPhotos } from '../unsplashAPI';
 
 import Photo from '../components/Photo';
 import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 
 let firstPageLoad = true;
 
 class Authentication extends React.Component {
     
-    constructor(props) {
+    constructor() {
         super();
         this.loadPhotos = this.loadPhotos.bind(this);
 
@@ -21,6 +22,8 @@ class Authentication extends React.Component {
 
         this.state = {
             search: '',
+            msnry: [],
+            lastSearched: '',
         }
     }
 
@@ -31,6 +34,28 @@ class Authentication extends React.Component {
         }
 
         window.addEventListener('scroll', this.onScroll.bind(this), true);
+
+        let msnry = new Masonry('.image_container', {
+            itemSelector: '.img_wrapper',
+            columnWidth: '.img_wrapper',
+            percentPosition: true,
+        });
+
+        imagesLoaded(document.querySelector('.image_container'), function() {
+            msnry.layout();
+        });
+    }
+
+    componentDidUpdate() {
+        let msnry = new Masonry('.image_container', {
+            itemSelector: '.img_wrapper',
+            columnWidth: '.img_wrapper',
+            percentPosition: true,
+        });
+
+        imagesLoaded(document.querySelector('.image_container'), function() {
+            msnry.layout();
+        });
     }
 
     loadPhotos() {
@@ -52,23 +77,47 @@ class Authentication extends React.Component {
         const spaceToPageBottom = document.querySelector('body').offsetHeight - window.scrollY - window.innerHeight;
         if (loadPhotoScrollBorder > spaceToPageBottom && localStorage.getItem('loadAvaliableBool') == 'true') {
             localStorage.setItem('loadAvaliableBool', false);
-            this.loadPhotos();
+            if(this.state.lastSearched === '') {
+                this.loadPhotos();
+            } else {
+                const page = localStorage.getItem('page');
+                const perPage = localStorage.getItem('perPage');
+                const keyword = this.state.lastSearched;
+                const token = localStorage.getItem('token');
+
+                this.loadSearchedPhotos(keyword, page, perPage, token, false)                
+            }
         }
     }
 
     searchHandler(ev) {
         if(ev.keyCode === 13) {
             ev.preventDefault();
+
+            localStorage.setItem('page', 1);
             const page = localStorage.getItem('page');
             const perPage = localStorage.getItem('perPage');
             const keyword = this.state.search;
             const token = localStorage.getItem('token');
+            this.state.lastSearched = keyword;
 
-            // searchPhotosAction();
-
-            searchPhotos(keyword, page, perPage, token)
-                .then((photos) => searchPhotosAction(photos));
+            this.loadSearchedPhotos(keyword, page, perPage, token, true)
         }
+    }
+
+    loadSearchedPhotos(keyword, page, perPage, token, firstSearch) {
+        searchPhotos(keyword, page, perPage, token)
+            .then((photos) => {
+                if(firstSearch) {
+                    this.props.firstSearchPhotosAction(photos)
+                } else {
+                    this.props.secondarySearchPhotosAction(photos)
+                }
+            })
+            .then(() => {
+                localStorage.setItem('loadAvaliableBool', true);
+                localStorage.setItem('page', +page + 1);
+            });
     }
 
     render() {
@@ -90,6 +139,7 @@ class Authentication extends React.Component {
                             photo={ photo }
                             key={ i }
                             id={ photo.id }
+                            msnry={ this.state.msnry }
                         />
                     })
                 }
@@ -108,7 +158,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         loadPhotosAction: (photos) => dispatch(loadPhotosAction(photos)),
-        searchPhotosAction: (photos) => dispatch(searchPhotosAction(photos)),
+        firstSearchPhotosAction: (photos) => dispatch(firstSearchPhotosAction(photos)),
+        secondarySearchPhotosAction: (photos) => dispatch(secondarySearchPhotosAction(photos)),
     }
 }
 

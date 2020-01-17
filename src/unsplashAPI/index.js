@@ -58,5 +58,6 @@ export const searchPhotos = (keyword, page, perPage, token) => {
     unsplash.auth.setBearerToken(token);
 
     return unsplash.search.photos(keyword, page, perPage)
-        .then(toJson);
+        .then(toJson)
+        .then(res => res.results);
 };

@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { likePhoto, unLikePhoto } from '../actions/actions';
 import { likePhotoUnsplash, unLikePhotoUnsplash } from '../unsplashAPI/index';
 
-import likered from "../images/likered.svg";
-
 class SinglePhoto extends React.Component {
 
     constructor(props) {
@@ -63,7 +61,9 @@ class SinglePhoto extends React.Component {
 
         try {
             const likeBGImage = {
-                backgroundImage: 'url('+ likered +')'
+                // backgroundImage: 'url('+ likered +')'
+                backgroundImage: 'url(http://devtestpage.ru/images/db5dc42dabd62ce471efe025bbe0f8de.svg)'
+
             };
             const user = this.state.photoInfo.user;
             const nextPhotoLink = this.state.photoInfo.number + 1 > this.props.photos.length - 1 ? '#' : '/auth/' + this.props.photos[this.state.photoInfo.number + 1].id
@@ -93,6 +93,7 @@ class SinglePhoto extends React.Component {
                 </div>
             );
         } catch (error) {
+            console.log(error);
             return(<Redirect to='/auth'/>)
         }
  

@@ -4,10 +4,13 @@ const reducer = (state = [], action) => {
             return [
                 ...state, ...action.photos,
             ]
-        case "SEARCH":
-            console.log(action.photos);
+        case "FIRST_SEARCH":
             return [
                 ...action.photos,
+            ]
+        case "SCROLL_SEARCH":
+            return [
+                ...state, ...action.photos,
             ]
         case "LIKE_PHOTO":
             return state.map((photo, i) => {

@@ -7,7 +7,7 @@ const conf = {
     output: {
       path: path.resolve(__dirname, 'build'),
       filename: 'build.js',
-    //   publicPath: '/',
+      publicPath: '/',
     },
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
@@ -67,6 +67,5 @@ module.exports = (env, options) => {
     conf.devtool = production
                     ? false
                     : 'eval-sourcemap';
-    
     return conf;
 }

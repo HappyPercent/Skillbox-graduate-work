@@ -9,6 +9,7 @@ import like from "../images/like.svg";
 import download from "../images/download.svg";
 
 import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 
 class Photo extends React.Component {
     
@@ -29,22 +30,16 @@ class Photo extends React.Component {
         }
     }
 
-    downloadPhoto() {
-        const token = localStorage.getItem('token');
-        const id = this.props.id;
-        const downloadURL = this.props.photo.links.download_location;
-
-        downoalPhotoFromUnsplash(id, token, downloadURL);
-    }
-
     componentDidMount() {
-        let elem = document.querySelector('.image_container');
-        let msnry = new Masonry( elem, {
+        let msnry = new Masonry( '.image_container', {
             itemSelector: '.img_wrapper',
             columnWidth: '.img_wrapper',
             percentPosition: true,
         });
-        msnry.layout();
+
+        imagesLoaded(document.querySelector('.image_container'), function() {
+            msnry.layout();
+        });
     }
 
     render() {
@@ -70,10 +65,6 @@ class Photo extends React.Component {
                             <span className='overlay__like-number'> { this.props.photo.likes } </span>
                             <div className={this.props.photo.liked_by_user ? 'overlay__like-img active' : 'overlay__like-img'} style={ likeBGImage } onClick={ this.toggleLike.bind(this) }></div>
                         </div>
-                    </div>
-                    <div className='overlay__bottom'>
-                        <div className='overlay__created'/>
-                        <button className='overlay__download-button' style={ downloadBGImage } onClick={ this.downloadPhoto.bind(this) }></button>
                     </div>
                 </div>
             </div>

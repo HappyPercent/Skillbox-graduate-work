@@ -6,9 +6,17 @@ export const loadPhotosAction = (photos) => {
     } 
 };
 
-export const searchPhotosAction = (photos) => {
+export const firstSearchPhotosAction = (photos) => {
     return {
-        type: 'SEARCH',
+        type: 'FIRST_SEARCH',
+        photos: photos,
+        // photos: JSON.parse(localStorage.getItem('photos')),
+    } 
+};
+
+export const secondarySearchPhotosAction = (photos) => {
+    return {
+        type: 'SCROLL_SEARCH',
         photos: photos,
         // photos: JSON.parse(localStorage.getItem('photos')),
     } 
